@@ -535,13 +535,14 @@ class EnhancedAmazonScraper:
                 pass
         
         # Review count
-        review_elem = container.select_one('[aria-label*="ratings"]')
+        review_elem = container.select_one('span[aria-label] .a-size-base')
         if review_elem:
             try:
-                aria_label = review_elem.get('aria-label', '')
-                review_count = int(''.join(filter(str.isdigit, aria_label.split(',')[0])))
-                product['review_count'] = review_count
-            except:
+                # Clean the text by removing commas and convert to integer
+                review_count_text = review_elem.text.strip().replace(',', '')
+                product['review_count'] = int(review_count_text)
+            except (ValueError, AttributeError):
+                # If conversion fails or text is not found, do nothing
                 pass
         
         return product
@@ -710,8 +711,8 @@ def main():
         
         # Get pages
         try:
-            pages = int(input("¿Cuántas páginas? (1-3, default=1): ") or "1")
-            pages = max(1, min(pages, 3))
+            pages = int(input("¿Cuántas páginas? (1-5, default=1): ") or "1")
+            pages = max(1, min(pages, 10))
         except:
             pages = 1
         
@@ -729,11 +730,34 @@ def main():
             scraper.display_results(products)
             
             # Export
-            if input("\n¿Exportar a CSV? (s/n): ").lower() == 's':
+            if input("\n¿Exportar a Excel (XLSX)? (s/n): ").lower() == 's':
                 df = pd.DataFrame(products)
-                filename = f"amazon_{query.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-                df.to_csv(filename, index=False)
-                print(f"✅ Exportado a {filename}")
+                
+                # Define filename for Excel
+                filename = f"amazon_{query.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+                
+                # Create a Pandas Excel writer using openpyxl as the engine.
+                with pd.ExcelWriter(filename, engine='openpyxl') as writer:
+                    df.to_excel(writer, index=False, sheet_name='Products')
+
+                    # Get the worksheet object
+                    worksheet = writer.sheets['Products']
+                    
+                    # Auto-adjust columns' width for better readability
+                    for column in worksheet.columns:
+                        max_length = 0
+                        column_letter = column[0].column_letter # Get the column letter
+                        for cell in column:
+                            try:
+                                if len(str(cell.value)) > max_length:
+                                    max_length = len(cell.value)
+                            except:
+                                pass
+                        adjusted_width = (max_length + 2)
+                        worksheet.column_dimensions[column_letter].width = adjusted_width
+
+                print(f"✅ Exportado y formateado a {filename}")
+
         else:
             print("\n❌ No se encontraron productos")
             print("\n💡 Sugerencias:")
