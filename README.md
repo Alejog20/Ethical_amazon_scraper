@@ -1,4 +1,4 @@
-# Multi-Platform E-Commerce Scraper - Version 7.0 (Production Edition)
+# Multi-Platform E-Commerce Scraper - Version 2.0
 
 ## 1. Project Status & Overview
 
