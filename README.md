@@ -6,7 +6,7 @@ This project represents the **definitive enterprise-grade** version of the multi
 
 The core philosophy has evolved to **Undetectable, Validated, and Production-Ready**. The scraper now defeats modern bot-detection systems, validates all extracted data, and employs sophisticated multi-layered strategies for maximum success rates.
 
-### **What's New in Version 7.0**
+### **What's New in Version 2.0**
 
 **Revolutionary Anti-Detection:**
 - **Playwright-Stealth Integration:** Advanced browser fingerprint masking
