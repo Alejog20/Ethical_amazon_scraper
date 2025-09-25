@@ -4,9 +4,16 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [  
+dependencies = [
     "requests",
     "beautifulsoup4",
     "pandas",
-    "cloudscraper"
-    ]
+    "cloudscraper",
+    "openpyxl>=3.1.5",
+    "urllib3>=2.5.0",
+    "rich>=14.1.0",
+    "httpx[http2]>=0.28.1",
+    "selectolax>=0.3.34",
+    "setuptools>=80.9.0",
+    "playwright>=1.55.0",
+]
