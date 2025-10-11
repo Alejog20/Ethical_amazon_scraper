@@ -157,7 +157,7 @@ This diagram illustrates the project's complete operational flow from start to f
 
 ### Step 1: Clone the Project
 ```bash
-git clone <repository-url>
+git clone <github.com/Alejog20/Multiple_source_scraper>
 cd <repository-directory>
 ```
 
